@@ -29,17 +29,8 @@ import Base: length, pointer
 
 function __init__()
     usr_lib = joinpath(dirname(@__FILE__), "../deps/usr/lib")
-    if isfile(joinpath(usr_lib, "libchealpix."*Libdl.dlext))
-        global const libchealpix = joinpath(usr_lib, "libchealpix")
-    else
-        global const libchealpix = joinpath("libchealpix")
-    end
-    if isfile(joinpath(usr_lib, "libhealpix_cxx."*Libdl.dlext))
-        Libdl.dlopen(joinpath(usr_lib, "libhealpix_cxx"), Libdl.RTLD_GLOBAL)
-    else
-        Libdl.dlopen("libhealpix_cxx", Libdl.RTLD_GLOBAL)
-    end
-    global const libhealpixwrapper = joinpath(usr_lib, "libhealpixwrapper")
+    global const libchealpix       = Libdl.find_library(["libchealpix"],       [usr_lib])
+    global const libhealpixwrapper = Libdl.find_library(["libhealpixwrapper"], [usr_lib])
 end
 
 include("pixel.jl")
