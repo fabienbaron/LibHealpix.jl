@@ -13,7 +13,7 @@ function build_cfitsio()
     end
     run(`tar -xzf $(joinpath(dir, tar)) -C $dir`)
     info("Building the CFITSIO library")
-
+    run(`./build_cfitsio.sh`)
 end
 
 function build_healpix()
