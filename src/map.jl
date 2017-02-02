@@ -114,7 +114,7 @@ by specifying `replace=true`. The `coordsys` keyword specifies the
 coordinate system of the given `HealpixMap`, but this is currently
 not retrieved by the corresponding `readhealpix` function.
 """
-function writehealpix(filename, map::HealpixMap; coordsys::ASCIIString = "C", replace::Bool = false)
+function writehealpix(filename, map::HealpixMap; coordsys::String = "C", replace::Bool = false)
     isdir(filename) && error("$filename is a directory")
     if isfile(filename)
         if replace
@@ -192,4 +192,3 @@ function interpolate(map_cxx::HealpixMap_cxx, θ::Float64, ϕ::Float64)
                    (Ptr{Void}, Cdouble, Cdouble), map_cxx, θ, ϕ)
     output
 end
-

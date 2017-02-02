@@ -20,6 +20,7 @@ module LibHealpix
 export HealpixMap, pixels, nside, npix, nring, isring, isnest
 export Alm, coefficients, lmax, mmax
 export npix2nside, nside2npix
+export pix2vec_nest, pix2ang_nest
 export map2alm, alm2map
 export writehealpix, readhealpix
 export mollweide
@@ -28,19 +29,11 @@ importall Base.Operators
 import Base: length, pointer
 
 function __init__()
-    usr_lib = joinpath(dirname(@__FILE__), "../deps/usr/lib")
-    if isfile(joinpath(usr_lib, "libchealpix."*Libdl.dlext))
-        global const libchealpix = joinpath(usr_lib, "libchealpix")
-    else
-        global const libchealpix = joinpath("libchealpix")
-    end
-    if isfile(joinpath(usr_lib, "libhealpix_cxx."*Libdl.dlext))
-        Libdl.dlopen(joinpath(usr_lib, "libhealpix_cxx"), Libdl.RTLD_GLOBAL)
-    else
-        Libdl.dlopen("libhealpix_cxx", Libdl.RTLD_GLOBAL)
-    end
-    global const libhealpixwrapper = joinpath(usr_lib, "libhealpixwrapper")
+    global const libchealpix = joinpath(dirname(@__FILE__),"../deps/downloads/Healpix_3.20/lib/libchealpix")
+    global const libhealpixwrapper = joinpath(dirname(@__FILE__),"../deps/libhealpixwrapper.so")
 end
+
+const UNDEF = -1.6375e30 # Defined by the Healpix standard
 
 include("pixel.jl")
 include("map.jl")
@@ -49,4 +42,3 @@ include("transforms.jl")
 include("mollweide.jl")
 
 end
-
